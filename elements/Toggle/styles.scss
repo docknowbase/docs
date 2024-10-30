@@ -1,0 +1,107 @@
+// src/components/LockToggle/styles.scss
+.lock-toggle {
+  position: relative;
+  min-width: 120px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  // Unlocked state
+  &--unlocked {
+    background-color: #22c55e;
+    color: white;
+
+    &:hover:not(.lock-toggle--disabled) {
+      background-color: #16a34a;
+
+      .lock-toggle__icon-svg {
+        transform: scale(1.1);
+      }
+    }
+
+    &:active:not(.lock-toggle--disabled) {
+      background-color: #15803d;
+      transform: scale(0.98);
+    }
+  }
+
+  // Locked state
+  &--locked {
+    background-color: #ef4444;
+    color: white;
+
+    &:hover:not(.lock-toggle--disabled) {
+      background-color: #dc2626;
+
+      .lock-toggle__icon-svg {
+        transform: scale(1.1);
+      }
+    }
+
+    &:active:not(.lock-toggle--disabled) {
+      background-color: #b91c1c;
+      transform: scale(0.98);
+    }
+  }
+
+  // Focus state
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  // Disabled state
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Optional ripple effect
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+
+  &:active::after {
+    transform: scale(1);
+    opacity: 1;
+    transition: 0s;
+  }
+}

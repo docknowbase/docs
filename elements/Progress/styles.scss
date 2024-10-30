@@ -1,0 +1,268 @@
+// ProgressBar.scss
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes increase {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+@keyframes decrease {
+  from {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  to {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+.progress-bar {
+  $root: &;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+
+  // Size variants
+  &--small {
+    #{$root}__track {
+      height: 0.5rem;
+    }
+    #{$root}__label {
+      font-size: 0.75rem;
+    }
+  }
+
+  &--medium {
+    #{$root}__track {
+      height: 0.75rem;
+    }
+    #{$root}__label {
+      font-size: 0.875rem;
+    }
+  }
+
+  &--large {
+    #{$root}__track {
+      height: 1rem;
+    }
+    #{$root}__label {
+      font-size: 1rem;
+    }
+  }
+
+  // Thickness variants
+  &--thin {
+    #{$root}__track {
+      height: 0.25rem;
+    }
+  }
+
+  &--normal {
+    // Default heights from size variants
+  }
+
+  &--thick {
+    #{$root}__track {
+      height: 1.5rem;
+    }
+  }
+
+  // Color variants
+  &--primary {
+    #{$root}__fill {
+      background-color: #3b82f6;
+    }
+  }
+
+  &--secondary {
+    #{$root}__fill {
+      background-color: #6b7280;
+    }
+  }
+
+  &--success {
+    #{$root}__fill {
+      background-color: #10b981;
+    }
+  }
+
+  &--error {
+    #{$root}__fill {
+      background-color: #ef4444;
+    }
+  }
+
+  &--warning {
+    #{$root}__fill {
+      background-color: #f59e0b;
+    }
+  }
+
+  // Status variants
+  &--default {
+    // Uses color variant styles
+  }
+
+  &--success {
+    #{$root}__fill {
+      background-color: #10b981;
+    }
+  }
+
+  &--error {
+    #{$root}__fill {
+      background-color: #ef4444;
+    }
+  }
+
+  &--warning {
+    #{$root}__fill {
+      background-color: #f59e0b;
+    }
+  }
+
+  // Component elements
+  &__track {
+    flex-grow: 1;
+    background-color: #e5e7eb;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__fill {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease-in-out;
+  }
+
+  &__label {
+    color: #4b5563;
+    font-weight: 500;
+    white-space: nowrap;
+
+    &--inner {
+      color: #ffffff;
+      padding: 0 0.5rem;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    &--top,
+    &--bottom {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  // Modifiers
+  &--rounded {
+    #{$root}__track {
+      border-radius: 9999px;
+    }
+    #{$root}__fill {
+      border-radius: 9999px;
+    }
+  }
+
+  &--striped {
+    #{$root}__fill {
+      background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 1rem 1rem;
+    }
+  }
+
+  &--animated {
+    #{$root}__fill {
+      &.progress-bar--striped {
+        animation: progress-bar-stripes 1s linear infinite;
+      }
+    }
+  }
+
+  &--indeterminate {
+    #{$root}__fill {
+      width: 50% !important;
+      animation: indeterminate 1.5s infinite ease-in-out;
+      transform-origin: left;
+    }
+  }
+
+  &--increasing {
+    #{$root}__fill {
+      animation: increase 0.3s ease-out;
+    }
+  }
+
+  &--decreasing {
+    #{$root}__fill {
+      animation: decrease 0.3s ease-out;
+    }
+  }
+
+  &--complete {
+    #{$root}__fill {
+      transition: background-color 0.3s ease;
+    }
+  }
+
+  // Label positions
+  &--label-top {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &--label-bottom {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  &--label-right {
+    flex-direction: row;
+  }
+
+  &--label-inner {
+    #{$root}__label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

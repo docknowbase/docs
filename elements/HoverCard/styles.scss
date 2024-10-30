@@ -1,0 +1,101 @@
+// Variables
+$hover-card-bg: #ffffff;
+$hover-card-border: #e2e8f0;
+$hover-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$hover-card-radius: 6px;
+$hover-card-padding: 12px;
+$hover-card-z-index: 1000;
+
+// Base styles
+.hover-card {
+  position: fixed;
+  background: $hover-card-bg;
+  border: 1px solid $hover-card-border;
+  border-radius: $hover-card-radius;
+  box-shadow: $hover-card-shadow;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: transform, opacity;
+
+  &__trigger {
+    display: inline-block;
+  }
+
+  &__content {
+    padding: $hover-card-padding;
+  }
+
+  &__arrow {
+    position: absolute;
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    background: $hover-card-bg;
+    border: 1px solid $hover-card-border;
+    transform: rotate(45deg);
+    z-index: -1;
+  }
+
+  // Position variants
+  &--top {
+    transform: translateY(8px);
+
+    .hover-card__arrow {
+      bottom: calc(var(--arrow-size) / -2);
+      left: calc(50% - var(--arrow-size) / 2);
+      border-top: 0;
+      border-left: 0;
+    }
+  }
+
+  &--bottom {
+    transform: translateY(-8px);
+
+    .hover-card__arrow {
+      top: calc(var(--arrow-size) / -2);
+      left: calc(50% - var(--arrow-size) / 2);
+      border-bottom: 0;
+      border-right: 0;
+    }
+  }
+
+  &--left {
+    transform: translateX(8px);
+
+    .hover-card__arrow {
+      right: calc(var(--arrow-size) / -2);
+      top: calc(50% - var(--arrow-size) / 2);
+      border-left: 0;
+      border-top: 0;
+    }
+  }
+
+  &--right {
+    transform: translateX(-8px);
+
+    .hover-card__arrow {
+      left: calc(var(--arrow-size) / -2);
+      top: calc(50% - var(--arrow-size) / 2);
+      border-right: 0;
+      border-bottom: 0;
+    }
+  }
+
+  // Visibility state
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: all var(--animation-duration) cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translate(0, 0);
+  }
+
+  // Hide arrow if needed
+  &:not(.hover-card--with-arrow) {
+    .hover-card__arrow {
+      display: none;
+    }
+  }
+}

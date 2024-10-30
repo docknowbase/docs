@@ -1,0 +1,209 @@
+// Sheet.scss
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayHide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sheetSlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheetSlideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sheetSlideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheetSlideOutLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.sheet {
+  $root: &;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+
+  // Position variants
+  &--right {
+    right: 0;
+    transform: translateX(100%);
+
+    &.sheet--animate.sheet--open {
+      animation: sheetSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    &.sheet--animate:not(.sheet--open) {
+      animation: sheetSlideOut 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  }
+
+  &--left {
+    left: 0;
+    transform: translateX(-100%);
+
+    &.sheet--animate.sheet--open {
+      animation: sheetSlideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    &.sheet--animate:not(.sheet--open) {
+      animation: sheetSlideOutLeft 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  }
+
+  // Size variants
+  &--small {
+    width: 320px;
+  }
+
+  &--medium {
+    width: 480px;
+  }
+
+  &--large {
+    width: 640px;
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  // Glass morphism variant
+  &--glass {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+  }
+
+  // Nested variant (for stacked sheets)
+  &--nested {
+    z-index: 1002;
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+
+    &--animate {
+      &.sheet--open {
+        animation: overlayShow 0.15s ease-out forwards;
+      }
+
+      &:not(.sheet--open) {
+        animation: overlayHide 0.15s ease-in forwards;
+      }
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    border-radius: 0.375rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1;
+
+    &:hover {
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+  }
+
+  &__header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__footer {
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .sheet {
+    &--small,
+    &--medium {
+      width: 100%;
+    }
+
+    &--large {
+      width: 100%;
+    }
+  }
+}

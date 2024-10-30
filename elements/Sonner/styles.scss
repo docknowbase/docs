@@ -1,0 +1,362 @@
+// sonner.scss
+
+// Core Variables
+$sonner-width: 360px;
+$sonner-border-radius: 8px;
+$sonner-padding: 16px;
+$sonner-margin: 8px;
+$sonner-font-size: 14px;
+$sonner-line-height: 1.5;
+$sonner-bg: #ffffff;
+$sonner-text-color: #1f2937;
+$sonner-icon-size: 20px;
+$sonner-close-button-size: 18px;
+
+// Stack Effect Variables
+$stack-scale-ratio: 0.15;
+$stack-elevation: 4px;
+$stack-visible-items: 3;
+$stack-transition-timing: cubic-bezier(0.24, 0.22, 0.015, 1.56);
+$stack-transition-duration: 0.3s;
+
+// Colors
+$colors: (
+  "success": #10b981,
+  "error": #ef4444,
+  "info": #3b82f6,
+  "warning": #f59e0b,
+);
+
+// Shadows
+$base-shadow: (0 4px 12px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1));
+
+// Container
+.sonner-container {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: $sonner-margin;
+  padding: $sonner-margin;
+  max-width: 100vw;
+  width: $sonner-width;
+  pointer-events: none;
+  box-sizing: border-box;
+
+  // Position Variants
+  &--top-left {
+    top: 0;
+    left: 0;
+    .sonner-viewport {
+      transform-origin: left top;
+    }
+  }
+
+  &--top-right {
+    top: 0;
+    right: 0;
+    .sonner-viewport {
+      transform-origin: right top;
+    }
+  }
+
+  &--bottom-left {
+    bottom: 0;
+    left: 0;
+    .sonner-viewport {
+      flex-direction: column-reverse;
+      transform-origin: left bottom;
+    }
+  }
+
+  &--bottom-right {
+    bottom: 0;
+    right: 0;
+    .sonner-viewport {
+      flex-direction: column-reverse;
+      transform-origin: right bottom;
+    }
+  }
+
+  // Hover effect on container
+  &:hover {
+    .sonner:not(:first-child) {
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i + 1}) {
+          transform: translateY(calc(#{$i * 8}px + var(--elevation) * 2px))
+            scale(calc(var(--scale) + 0.02))
+            translateZ(calc(var(--elevation) * -0.8px));
+          opacity: calc(1 - (#{$i} * 0.1));
+        }
+      }
+    }
+  }
+}
+
+// Viewport
+.sonner-viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  padding: 20px 0;
+  min-height: 100px;
+  pointer-events: none;
+}
+
+// Toast
+.sonner {
+  position: relative;
+  background: $sonner-bg;
+  border-radius: $sonner-border-radius;
+  padding: $sonner-padding;
+  box-shadow: $base-shadow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+  transform-origin: 50% 0%;
+  transition: all $stack-transition-duration $stack-transition-timing;
+  width: 100%;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+
+  // Content Layout
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__message {
+    margin: 0;
+    font-size: $sonner-font-size;
+    line-height: $sonner-line-height;
+    color: $sonner-text-color;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__icon {
+    width: $sonner-icon-size;
+    height: $sonner-icon-size;
+    flex-shrink: 0;
+  }
+
+  // Close Button
+  &__close-button {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-left: 8px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    opacity: 0.5;
+    width: $sonner-close-button-size;
+    height: $sonner-close-button-size;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      opacity: 1;
+    }
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Stacking Effect
+
+  &:not(:first-child) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i + 1}) {
+        --scale: #{1 - ($i * $stack-scale-ratio)};
+        --elevation: #{$i * $stack-elevation};
+
+        $shadow-opacity: 0.12 - ($i * 0.02);
+        $secondary-shadow-opacity: 0.08 - ($i * 0.01);
+
+        transform: translateY(calc(var(--elevation) * 2px))
+          scale(var(--scale))
+          translateZ(calc(var(--elevation) * -1px));
+        opacity: #{1 - ($i * 0.15)};
+        filter: brightness(#{1 - ($i * 0.05)});
+
+        pointer-events: #{if($i > $stack-visible-items, none, auto)};
+
+        box-shadow: 0 #{2 + $i}px #{8 + $i * 2}px rgba(0, 0, 0, $shadow-opacity),
+          0 #{1 + $i}px #{$i * 2}px rgba(0, 0, 0, $secondary-shadow-opacity);
+      }
+    }
+  }
+
+  // Hover Effect
+  &:hover {
+    transform: translateY(-2px) scale(1.02) translateZ(0);
+    z-index: 2;
+
+    & + .sonner {
+      transform: translateY(calc(var(--elevation) * 3px)) scale(var(--scale))
+        translateZ(calc(var(--elevation) * -1.2px));
+    }
+  }
+
+  // Type Variants
+  @each $type, $color in $colors {
+    &--#{$type} {
+      border-left: 4px solid $color;
+
+      .sonner__icon {
+        color: $color;
+      }
+    }
+  }
+
+  // Animations
+  &--animate-in {
+    animation: sonner-enter 0.4s $stack-transition-timing forwards;
+  }
+
+  &--removing {
+    animation: sonner-exit 0.3s $stack-transition-timing forwards;
+  }
+}
+
+// Keyframe Animations
+@keyframes sonner-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.8) translateZ(20px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(10%) scale(1.02) translateZ(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) translateZ(0);
+  }
+}
+
+@keyframes sonner-exit {
+  0% {
+    opacity: 1;
+    transform: translateY(calc(var(--elevation) * 2px)) scale(var(--scale))
+      translateZ(calc(var(--elevation) * -1px));
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(calc(var(--elevation) * 2px))
+      scale(calc(var(--scale) * 0.8)) translateZ(calc(var(--elevation) * -2px));
+  }
+}
+
+// Dark Mode
+@media (prefers-color-scheme: dark) {
+  .sonner {
+    background: #1f2937;
+    color: #f3f4f6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 1px rgba(255, 255, 255, 0.1);
+
+    &__message {
+      color: #f3f4f6;
+    }
+
+    &__close-button {
+      color: #9ca3af;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &:active {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    // Adjust shadow for stacked items in dark mode
+
+    &:not(:first-child) {
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i + 1}) {
+          $dark-shadow-opacity: 0.25 - ($i * 0.03);
+          $dark-secondary-shadow-opacity: 0.15 - ($i * 0.02);
+
+          box-shadow: 0
+              #{2 +
+              $i}px
+              #{8 +
+              $i *
+              2}px
+              rgba(0, 0, 0, $dark-shadow-opacity),
+            0
+              #{1 +
+              $i}px
+              #{$i *
+              2}px
+              rgba(0, 0, 0, $dark-secondary-shadow-opacity);
+        }
+      }
+    }
+  }
+}
+
+// Mobile Optimizations
+@media (max-width: 768px) {
+  .sonner-container {
+    width: calc(100% - #{$sonner-margin * 2});
+    max-width: $sonner-width;
+  }
+}
+
+// RTL Support
+[dir="rtl"] {
+  .sonner {
+    &__content {
+      flex-direction: row-reverse;
+    }
+
+    &__close-button {
+      margin-left: 0;
+      margin-right: 8px;
+    }
+
+    @each $type, $color in $colors {
+      &--#{$type} {
+        border-left: none;
+        border-right: 4px solid $color;
+      }
+    }
+  }
+}
+
+// Reset styles
+button {
+  all: unset;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

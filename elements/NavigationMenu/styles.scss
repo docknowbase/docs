@@ -1,0 +1,174 @@
+// Variables
+$transition-duration: 0.3s;
+$background-color: #2196f3;
+$text-color: #333;
+$hover-text-color: #fff;
+$dropdown-background: #fff;
+$dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+.navigation-menu {
+  position: relative;
+  z-index: 1000;
+
+  &__list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  &__item {
+    position: relative;
+    flex: 1;
+    text-align: center;
+
+    &:hover {
+      .navigation-menu__background {
+        transform: scaleX(1);
+      }
+
+      .navigation-menu__text {
+        color: $hover-text-color;
+      }
+    }
+
+    &--slide-left {
+      .navigation-menu__background {
+        transform-origin: left;
+      }
+    }
+
+    &--slide-right {
+      .navigation-menu__background {
+        transform-origin: right;
+      }
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__text {
+    position: relative;
+    z-index: 2;
+    color: $text-color;
+    font-weight: 500;
+    transition: color $transition-duration ease;
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $background-color;
+    transform: scaleX(0);
+    transition: transform $transition-duration ease;
+    z-index: 1;
+  }
+
+  // Dropdown styles
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 300px;
+    background: $dropdown-background;
+    box-shadow: $dropdown-shadow;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all $transition-duration ease;
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    &--slide-left {
+      transform-origin: left top;
+      animation: slideFromLeft $transition-duration ease forwards;
+    }
+
+    &--slide-right {
+      transform-origin: right top;
+      animation: slideFromRight $transition-duration ease forwards;
+    }
+  }
+
+  &__dropdown-content {
+    padding: 1.5rem;
+  }
+
+  &__dropdown-title {
+    margin: 0 0 0.75rem;
+    font-size: 1.25rem;
+    color: $text-color;
+  }
+
+  &__dropdown-description {
+    margin: 0 0 1rem;
+    color: lighten($text-color, 20%);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  &__dropdown-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__dropdown-link-item {
+    margin-bottom: 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__dropdown-link {
+    display: block;
+    color: $background-color;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: color $transition-duration ease;
+
+    &:hover {
+      color: darken($background-color, 15%);
+    }
+  }
+}
+
+// Animations
+@keyframes slideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}

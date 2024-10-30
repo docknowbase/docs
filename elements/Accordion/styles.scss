@@ -1,0 +1,166 @@
+// src/components/Accordion/styles.scss
+
+.accordion {
+  $root: &;
+  width: 100%;
+  border-radius: 8px;
+  background: white;
+
+  // Variants
+  &--default {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  &--flat {
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+  }
+
+  &--minimal {
+    box-shadow: none;
+
+    .accordion-item {
+      border: none;
+      border-bottom: 1px solid #e2e8f0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.accordion-item {
+  $item: &;
+  background: white;
+  overflow: hidden;
+
+  &--bordered {
+    border-bottom: 1px solid #e2e8f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  // Header styles
+  &__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #f8fafc;
+
+      #{$item}__icon {
+        color: #2563eb;
+      }
+    }
+
+    &:focus-visible {
+      outline: none;
+      background: #f1f5f9;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        box-shadow: 0 0 0 2px #2563eb;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  // Title styles
+  &__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1e293b;
+    flex: 1;
+    margin-right: 16px;
+  }
+
+  // Icon styles
+  &__icon {
+    color: #64748b;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+
+    &--rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Content wrapper for animation
+  &__content-wrapper {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Content styles
+  &__content {
+    padding: 0 20px 16px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  // Open state
+  &--open {
+    #{$item}__header {
+      background: #f8fafc;
+
+      &:hover {
+        background: #f1f5f9;
+      }
+    }
+
+    #{$item}__icon {
+      color: #2563eb;
+    }
+  }
+
+  // Disabled state
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    #{$item}__header {
+      cursor: not-allowed;
+
+      &:hover {
+        background: transparent;
+
+        #{$item}__icon {
+          color: #64748b;
+        }
+      }
+    }
+  }
+
+  // Animation
+  &:not(#{$item}--disabled) {
+    #{$item}__header:active {
+      background: #e2e8f0;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

@@ -1,0 +1,84 @@
+// Variables
+$transition-duration: 0.2s;
+$drag-cursor: grab;
+$dragging-cursor: grabbing;
+
+// Main container
+.draggable-container {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+}
+
+// Draggable element
+.draggable-element {
+  position: absolute;
+  cursor: $drag-cursor;
+  transform: translate(0, 0);
+  transition: transform $transition-duration cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform;
+  touch-action: none;
+
+  // Modifiers
+  &--dragging {
+    cursor: $dragging-cursor;
+    transition: none;
+    z-index: 1000;
+
+    // Optional shadow effect while dragging
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &--restrict-x {
+    cursor: ew-resize;
+
+    &.draggable-element--dragging {
+      cursor: ew-resize;
+    }
+  }
+
+  &--restrict-y {
+    cursor: ns-resize;
+
+    &.draggable-element--dragging {
+      cursor: ns-resize;
+    }
+  }
+
+  // Hover state
+  &:hover {
+    &:not(.draggable-element--dragging) {
+      transform: scale(1.02);
+      transition: transform $transition-duration cubic-bezier(0.2, 0, 0, 1);
+    }
+  }
+}
+
+// Global dragging state
+body.dragging {
+  cursor: $dragging-cursor;
+
+  * {
+    cursor: $dragging-cursor !important;
+  }
+}
+
+// Animation keyframes for optional effects
+@keyframes dragStart {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes dragEnd {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}

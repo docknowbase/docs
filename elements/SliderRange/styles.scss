@@ -1,0 +1,183 @@
+// DualRangeSlider.scss
+$themes: (
+  primary: (
+    track: #e2e8f0,
+    progress: #3b82f6,
+    handle: #3b82f6,
+    handle-hover: #2563eb,
+    focus-ring: rgba(59, 130, 246, 0.5),
+  ),
+  secondary: (
+    track: #e2e8f0,
+    progress: #6b7280,
+    handle: #6b7280,
+    handle-hover: #4b5563,
+    focus-ring: rgba(107, 114, 128, 0.5),
+  ),
+  success: (
+    track: #e2e8f0,
+    progress: #10b981,
+    handle: #10b981,
+    handle-hover: #059669,
+    focus-ring: rgba(16, 185, 129, 0.5),
+  ),
+);
+
+.dual-range-slider {
+  $root: &;
+  position: relative;
+  width: 100%;
+  max-width: 24rem;
+  padding: 0.5rem;
+
+  @each $theme, $colors in $themes {
+    &--#{$theme} {
+      #{$root}__progress {
+        background-color: map-get($colors, progress);
+      }
+
+      #{$root}__handle {
+        border-color: map-get($colors, handle);
+
+        &:hover {
+          border-color: map-get($colors, handle-hover);
+        }
+      }
+
+      &#{$root}--focused {
+        #{$root}__input:focus {
+          box-shadow: 0 0 0 3px map-get($colors, focus-ring);
+        }
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1f2937;
+  }
+
+  &__inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__input {
+    width: 4.5rem;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
+    text-align: center;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    &:disabled {
+      background-color: #f3f4f6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__input-separator {
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  &__track {
+    position: relative;
+    height: 0.5rem;
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+    cursor: pointer;
+    margin: 1rem 0;
+  }
+
+  &__progress {
+    position: absolute;
+    height: 100%;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+  }
+
+  &__handle {
+    position: absolute;
+    top: 50%;
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: #ffffff;
+    border: 2px solid;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: grab;
+    z-index: 1;
+
+    &:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    &:active {
+      cursor: grabbing;
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    &--active {
+      z-index: 2;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+  }
+
+  &__limits {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  &__limit {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+
+  // Disabled state
+  &--disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+
+    #{$root}__track,
+    #{$root}__handle {
+      cursor: not-allowed;
+    }
+
+    #{$root}__handle:hover {
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  // Dragging state
+  &--dragging {
+    #{$root}__handle--active {
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+  }
+
+  // Focus state
+  &--focused {
+    #{$root}__input:focus {
+      border-color: #3b82f6;
+    }
+  }
+}

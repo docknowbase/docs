@@ -1,0 +1,181 @@
+// src/components/Tooltip/styles.scss
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  display: inline-block;
+}
+
+.tooltip {
+  $root: &;
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__content {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  &__arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+  }
+
+  // Position Variants
+  &--top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+
+    &#{$root}--visible {
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    #{$root}__arrow {
+      bottom: -4px;
+      left: calc(50% - 4px);
+    }
+  }
+
+  &--bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+
+    &#{$root}--visible {
+      transform: translateX(-50%) translateY(4px);
+    }
+
+    #{$root}__arrow {
+      top: -4px;
+      left: calc(50% - 4px);
+    }
+  }
+
+  &--left {
+    right: 100%;
+    top: 50%;
+    transform: translateX(-8px) translateY(-50%);
+
+    &#{$root}--visible {
+      transform: translateX(-4px) translateY(-50%);
+    }
+
+    #{$root}__arrow {
+      right: -4px;
+      top: calc(50% - 4px);
+    }
+  }
+
+  &--right {
+    left: 100%;
+    top: 50%;
+    transform: translateX(8px) translateY(-50%);
+
+    &#{$root}--visible {
+      transform: translateX(4px) translateY(-50%);
+    }
+
+    #{$root}__arrow {
+      left: -4px;
+      top: calc(50% - 4px);
+    }
+  }
+
+  // Theme Variants
+  &--dark {
+    #{$root}__content {
+      background-color: #1e293b;
+      color: white;
+    }
+
+    #{$root}__arrow {
+      background-color: #1e293b;
+    }
+  }
+
+  &--light {
+    #{$root}__content {
+      background-color: white;
+      color: #1e293b;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    #{$root}__arrow {
+      background-color: white;
+    }
+  }
+
+  &--info {
+    #{$root}__content {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    #{$root}__arrow {
+      background-color: #3b82f6;
+    }
+  }
+
+  &--success {
+    #{$root}__content {
+      background-color: #22c55e;
+      color: white;
+    }
+
+    #{$root}__arrow {
+      background-color: #22c55e;
+    }
+  }
+
+  &--warning {
+    #{$root}__content {
+      background-color: #f59e0b;
+      color: white;
+    }
+
+    #{$root}__arrow {
+      background-color: #f59e0b;
+    }
+  }
+
+  &--error {
+    #{$root}__content {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    #{$root}__arrow {
+      background-color: #ef4444;
+    }
+  }
+}
+
+// Fade animation
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,192 @@
+// src/components/Pagination/styles.scss
+
+.pagination {
+  $root: &;
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  &__nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__numbers {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__button,
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover:not(#{$root}__button--active):not(#{$root}__button--disabled):not(
+        #{$root}__nav--disabled
+      ) {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0)
+      );
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    &:active:not(#{$root}__button--disabled):not(#{$root}__nav--disabled) {
+      transform: translateY(0);
+    }
+  }
+
+  &__button {
+    font-weight: 500;
+
+    &--active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: white;
+      cursor: default;
+
+      &:hover {
+        box-shadow: none;
+        transform: none;
+      }
+    }
+  }
+
+  &__nav {
+    position: relative;
+
+    &-double {
+      position: absolute;
+      left: 8px;
+      opacity: 0.5;
+    }
+  }
+
+  &__button--disabled,
+  &__nav--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    color: #64748b;
+  }
+
+  &__size-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__size-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  &__size-select {
+    padding: 6px 24px 6px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 5l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+
+    &:hover:not(:disabled) {
+      border-color: #cbd5e1;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__info {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  // Animation for page changes
+  &__button,
+  &__nav {
+    &:not(#{$root}__button--active) {
+      transform: scale(1);
+      transition: transform 0.2s ease, background-color 0.2s ease,
+        border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+  }
+
+  @media (max-width: 640px) {
+    &__controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+
+    &__size-selector {
+      justify-content: center;
+    }
+
+    &__info {
+      text-align: center;
+    }
+  }
+}

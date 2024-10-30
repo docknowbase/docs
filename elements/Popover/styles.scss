@@ -1,0 +1,147 @@
+// Variables
+$popover-bg: #ffffff;
+$popover-border: #e2e8f0;
+$popover-shadow: rgba(0, 0, 0, 0.1);
+$popover-radius: 8px;
+$transition-duration: 0.2s;
+
+// Main container
+.popover-container {
+  position: relative;
+  display: inline-block;
+}
+
+// Popover base
+.popover {
+  position: absolute;
+  min-width: 240px;
+  background-color: $popover-bg;
+  border: 1px solid $popover-border;
+  border-radius: $popover-radius;
+  box-shadow: 0 4px 6px -1px $popover-shadow;
+  opacity: 0;
+  visibility: hidden;
+  transition: all $transition-duration ease-in-out;
+  z-index: 1000;
+
+  // Positioning modifiers
+  &--top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    margin-bottom: 8px;
+  }
+
+  &--bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    margin-top: 8px;
+  }
+
+  &--left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    margin-right: 8px;
+  }
+
+  &--right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    margin-left: 8px;
+  }
+
+  // Open state
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+
+    &.popover--left {
+      transform: translateY(-50%) translateX(0);
+    }
+
+    &.popover--right {
+      transform: translateY(-50%) translateX(0);
+    }
+
+    &.popover--top {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    &.popover--bottom {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
+// Trigger element
+.popover__trigger {
+  cursor: pointer;
+  display: inline-block;
+}
+
+// Content container
+.popover__content {
+  padding: 16px;
+}
+
+// Input group
+.popover__input-group {
+  margin-bottom: 16px;
+}
+
+// Input field
+.popover__input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid $popover-border;
+  border-radius: $popover-radius;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color $transition-duration ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-color: darken($popover-border, 15%);
+  }
+}
+
+// Actions container
+.popover__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+// Button base
+.popover__button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: $popover-radius;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color $transition-duration ease-in-out;
+
+  // Button variants
+  &--cancel {
+    background-color: #f1f5f9;
+    color: #64748b;
+
+    &:hover {
+      background-color: darken(#f1f5f9, 5%);
+    }
+  }
+
+  &--submit {
+    background-color: #3b82f6;
+    color: white;
+
+    &:hover {
+      background-color: darken(#3b82f6, 5%);
+    }
+  }
+}

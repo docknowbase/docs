@@ -1,0 +1,215 @@
+// Variables
+$dialog-bg: #ffffff;
+$dialog-border: #e2e8f0;
+$dialog-shadow: rgba(0, 0, 0, 0.15);
+$dialog-radius: 8px;
+$transition-duration: 0.3s;
+$backdrop-color: rgba(0, 0, 0, 0.5);
+
+// Dialog wrapper (backdrop)
+.dialog-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $backdrop-color;
+  z-index: 1000;
+  animation: fadeIn $transition-duration ease-out;
+}
+
+// Dialog base
+.dialog {
+  background-color: $dialog-bg;
+  border-radius: $dialog-radius;
+  box-shadow: 0 10px 25px -5px $dialog-shadow;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideIn $transition-duration ease-out;
+  position: relative;
+
+  // Size variants
+  &--small {
+    width: 95%;
+    max-width: 400px;
+  }
+
+  &--medium {
+    width: 95%;
+    max-width: 600px;
+  }
+
+  &--large {
+    width: 95%;
+    max-width: 800px;
+  }
+}
+
+// Header section
+.dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid $dialog-border;
+}
+
+.dialog__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.dialog__close {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  color: #666;
+  transition: color $transition-duration ease;
+
+  &:hover {
+    color: #1a1a1a;
+  }
+}
+
+// Content section
+.dialog__content {
+  padding: 24px;
+}
+
+.dialog__form {
+  margin: 0;
+}
+
+.dialog__input-group {
+  margin-bottom: 16px;
+}
+
+.dialog__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.dialog__input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid $dialog-border;
+  border-radius: $dialog-radius;
+  font-size: 16px;
+  transition: border-color $transition-duration ease;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &::placeholder {
+    color: #a0aec0;
+  }
+}
+
+// Footer section
+.dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid $dialog-border;
+  background-color: #f8fafc;
+  border-bottom-left-radius: $dialog-radius;
+  border-bottom-right-radius: $dialog-radius;
+}
+
+// Button base
+.dialog__button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: $dialog-radius;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition-duration ease;
+
+  // Button variants
+  &--cancel {
+    background-color: #f1f5f9;
+    color: #64748b;
+
+    &:hover {
+      background-color: darken(#f1f5f9, 5%);
+    }
+
+    &:active {
+      background-color: darken(#f1f5f9, 10%);
+    }
+  }
+
+  &--submit {
+    background-color: #3b82f6;
+    color: white;
+
+    &:hover {
+      background-color: darken(#3b82f6, 5%);
+    }
+
+    &:active {
+      background-color: darken(#3b82f6, 10%);
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Focus styles
+.dialog:focus {
+  outline: none;
+}
+
+// Scrollbar styling
+.dialog {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
+  }
+}
